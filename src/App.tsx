@@ -10,7 +10,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/> Normalize CSS
-            <Router>
+            <Router basename={'/quizmarkt-admin-react'}>
                 <Routes>
                     <Route path="/" element={<MainLayout/>}>
                         {routes.map(route => <Route path={route.path} element={route.element}/>)}
