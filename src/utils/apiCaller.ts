@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8083/quesmarkt-base/admin';
+const BASE_URL = 'https://api.quizmarkt.com/quizmarkt-base/admin';
 
 export const apiCall = async (
     endpoint: string,
@@ -8,7 +8,9 @@ export const apiCall = async (
     let init: any = {
         method,
         headers: {
+            'Referrer-Policy': 'no-referrer',
             'Content-Type': 'application/json',
+            //'Access-Control-Allow-Origin':'http://localhost:3000'
             // Add other headers if needed (e.g., Authorization)
         },
         body: body ? JSON.stringify(body) : undefined,

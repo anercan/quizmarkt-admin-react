@@ -30,7 +30,8 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
         priority: props.quiz?.priority,
         active: props.quiz?.active,
         quizGroupIds:props.quiz?.quizGroupList?.map((q:any)=> q.id).join(','),
-        attributes: JSON.stringify(props.quiz?.attributes)
+        attributes: JSON.stringify(props.quiz?.attributes),
+        availablePremiumTypes:props?.quiz?.availablePremiumTypes?.map((q:any)=> q.id).join(',')
     });
 
     useEffect(() => {
@@ -41,7 +42,8 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
                 priority: props.quiz?.priority,
                 active: props.quiz?.active,
                 quizGroupIds:props.quiz ? props.quiz?.quizGroupList.map((q:any)=> q.id).join(',') : props.groupId,
-                attributes: JSON.stringify(props.quiz?.attributes)
+                attributes: JSON.stringify(props.quiz?.attributes),
+                availablePremiumTypes: props?.quiz?.availablePremiumTypes?.map((q:any)=> q.id).join(',')
             });
             handleOpen();
         }
@@ -61,9 +63,13 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log(formData);
-        formData.quizGroupIds = formData?.quizGroupIds?.split(',').map(Number)
+        formData.quizGroupIds = formData?.quizGroupIds?.split(',').map(Number);
+        formData.availablePremiumTypes = formData?.availablePremiumTypes?.split(',');
         apiCall('/save-quiz', 'POST', formData)
-            .then(() => props.refresh())
+            .then(() => {
+                props.refresh();
+                alert('Created')
+            })
             .catch(() => {props.refresh()});
         handleClose();
         props.onClose();
@@ -101,7 +107,7 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
                         <Box display="flex" justifyContent="space-between" alignItems="center">
                             <Typography
                                 variant="h6">
-                                {props.quiz ? 'Quiz Group - ' + props.quiz.id : 'Create Quiz Group'}
+                                {props.quiz ? 'Quiz - ' + props.quiz.id : 'Create Quiz'}
                             </Typography>
                             <IconButton onClick={handleClose}>
                                 <CloseIcon/>
@@ -156,6 +162,15 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
                                 disabled={props.quiz == undefined && props.groupId}
                                 name="quizGroupIds"
                                 value={formData.quizGroupIds}
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                label="Available Premium Types (add with comma)"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="availablePremiumTypes"
+                                value={formData.availablePremiumTypes}
                                 onChange={handleChange}
                             />
                             <FormControlLabel

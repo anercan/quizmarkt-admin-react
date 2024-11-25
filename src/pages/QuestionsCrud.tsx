@@ -8,7 +8,7 @@ import {
     TableHead, TableRow,
     Typography
 } from "@mui/material";
-import {useLocation, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import QuestionModal from "../components/QuestionModal";
 
 interface IQuestionsCrud {
@@ -17,9 +17,8 @@ interface IQuestionsCrud {
 const QuestionsCrud: React.FC<IQuestionsCrud> = (props) => {
 
     const [searchParams] = useSearchParams();
-    const location = useLocation();
-    const questionList:any  = location.state as { questionList: any[] };
     const quizId = searchParams.get('quizId') || undefined;
+    const [questionList, setQuestionList] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedQuestion, setSelectedQuestion] = useState({});
 
@@ -29,7 +28,8 @@ const QuestionsCrud: React.FC<IQuestionsCrud> = (props) => {
 
     const fetchAndSetData = async () => {
         try {
-            console.log(questionList)
+            let questionList = await apiCall('/get-question-list?quizId=' + quizId, 'GET');
+            setQuestionList(questionList);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -61,7 +61,7 @@ const QuestionsCrud: React.FC<IQuestionsCrud> = (props) => {
                             <TableRow>
                                 <TableCell>ID</TableCell>
                                 <TableCell align="left">Content</TableCell>
-                                <TableCell color='info' align="left">Created Date</TableCell>
+                                <TableCell color='info' align="left">Last Modified Date</TableCell>
                                 <TableCell color='info' align="left">Image Url</TableCell>
                                 <TableCell color='info' align="left">Priority</TableCell>
                                 <TableCell align="left">Attributes</TableCell>
@@ -79,7 +79,7 @@ const QuestionsCrud: React.FC<IQuestionsCrud> = (props) => {
                                         }}>
                                         {item.content}
                                     </TableCell>
-                                    <TableCell align="left">{item.createdDate}</TableCell>
+                                    <TableCell align="left">{item.lastModifiedDate}</TableCell>
                                     <TableCell align="left">{item.imgUrl}</TableCell>
                                     <TableCell align="left">{item.priority}</TableCell>
                                     <TableCell align="left">{JSON.stringify(item.attributes)}</TableCell>

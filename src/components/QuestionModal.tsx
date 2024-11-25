@@ -19,7 +19,7 @@ interface IQuizModal {
     onClose: () => void;
     refresh: () => void;
     question?: any;
-    quizId?: any
+    quizId: any
 }
 
 const QuestionModal: React.FC<IQuizModal> = (props) => {
@@ -29,11 +29,12 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
         content: props.question?.content,
         imgUrl: props.question?.imgUrl,
         priority: props.question?.priority || 0,
-        active: props.question?.active || false,
+        active: props.question?.active || true,
         attributes: JSON.stringify(props.question?.attributes),
         explanation: props.question?.explanation,
         correctAnswerId:props.question?.correctAnswerId,
-        createOrUpdateAnswerList:props?.question?.answersList?.length > 0 ? props.question.answersList : [{},{},{},{}]
+        quizId: props.quizId,
+        createOrUpdateAnswerList:props?.question?.answersList?.length > 0 ? props.question.answersList : [{correctAnswer:true},{},{},{}]
     });
 
     useEffect(() => {
@@ -43,11 +44,12 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                 content: props.question?.content,
                 imgUrl: props.question?.imgUrl,
                 priority: props.question?.priority,
-                active: props.question?.active,
+                active: props.question?.active || true,
                 attributes: JSON.stringify(props.question?.attributes),
                 explanation: props.question?.explanation,
                 correctAnswerId:props.question?.correctAnswerId,
-                createOrUpdateAnswerList:props?.question?.answersList?.length > 0 ? props.question.answersList : [{isCorrectAnswer:true},{},{},{}]
+                quizId: props.quizId,
+                createOrUpdateAnswerList:props?.question?.answersList?.length > 0 ? props.question.answersList : [{correctAnswer:true},{},{},{}]
             });
             handleOpen();
         }
@@ -75,7 +77,7 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                 return answer;
             });
         } else {
-            updatedAnswers[name] = {content: value,isCorrectAnswer:answer.isCorrectAnswer};
+            updatedAnswers[name] = {content: value,correctAnswer:answer.correctAnswer};
         }
         setFormData({
             ...formData,
@@ -85,11 +87,15 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(formData);
+        formData.createOrUpdateAnswerList = formData.createOrUpdateAnswerList.filter((answer: any) => {
+            // Check if the object has any own properties
+            return Object.keys(answer).length !== 0;
+        });
         apiCall('/save-question', 'POST', formData)
             .then(() => props.refresh())
             .catch(() => {
                 props.refresh()
+                alert('Created')
             });
         handleClose();
         props.onClose();
@@ -153,7 +159,8 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                                         variant="outlined"
                                         fullWidth
                                         margin="normal"
-                                        name="name"
+                                        name="content"
+                                        multiline
                                         value={formData.content}
                                         onChange={handleChange}
                                     />
@@ -224,7 +231,7 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                                     {formData.createOrUpdateAnswerList?.map((answer: any,index:any) => (
                                             <TextField
                                                 id={answer?.id}
-                                                label={(props?.question && answer?.id === props?.question?.correctAnswerId) || answer.isCorrectAnswer ? 'Correct Answer' : 'Wrong Answer'}
+                                                label={(props?.question && answer?.id === props?.question?.correctAnswerId) || answer.correctAnswer ? 'Correct Answer' : 'Wrong Answer'}
                                                 variant="filled"
                                                 fullWidth
                                                 margin="normal"
@@ -233,7 +240,7 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                                                 onChange={(e:any) => handleAnswerChange(e,answer)}
                                                 sx={{
                                                     '.MuiFilledInput-root': {
-                                                        backgroundColor: (props?.question && answer?.id === props?.question?.correctAnswerId) || answer.isCorrectAnswer ? '#5bad51' : '#a78484',
+                                                        backgroundColor: (props?.question && answer?.id === props?.question?.correctAnswerId) || answer.correctAnswer ? '#5bad51' : '#a78484',
                                                     },
                                                 }}
                                                 required={true}/>
