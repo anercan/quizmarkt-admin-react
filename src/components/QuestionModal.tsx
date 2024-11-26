@@ -3,10 +3,10 @@ import {
     Backdrop,
     Box,
     Button,
-    Fade,
+    Fade, FormControl,
     FormControlLabel,
-    IconButton,
-    Modal,
+    IconButton, InputLabel, MenuItem,
+    Modal, Select,
     Switch,
     TextField,
     Typography
@@ -30,7 +30,8 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
         imgUrl: props.question?.imgUrl,
         priority: props.question?.priority || 0,
         active: props.question?.active || true,
-        attributes: JSON.stringify(props.question?.attributes),
+        attributes: JSON.stringify(props.question?.attributes) || "{}",
+        subject: props.question?.attributes?.subject,
         explanation: props.question?.explanation,
         correctAnswerId:props.question?.correctAnswerId,
         quizId: props.quizId,
@@ -45,7 +46,8 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                 imgUrl: props.question?.imgUrl,
                 priority: props.question?.priority,
                 active: props.question?.active || true,
-                attributes: JSON.stringify(props.question?.attributes),
+                attributes: JSON.stringify(props.question?.attributes) || "{}",
+                subject: props.question?.attributes?.subject,
                 explanation: props.question?.explanation,
                 correctAnswerId:props.question?.correctAnswerId,
                 quizId: props.quizId,
@@ -64,6 +66,17 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         setFormData({...formData, [name]: value});
+    };
+
+    const handleSelect = (e:any) => {
+        const {name, value} = e.target;
+
+        let parse = JSON.parse(formData?.attributes);
+        parse[name] = value;
+        formData.attributes = JSON.stringify(parse);
+        formData.subject = value;
+
+        setFormData({...formData, attributes: formData.attributes});
     };
 
     const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>, answer: any) => {
@@ -91,6 +104,7 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
             // Check if the object has any own properties
             return Object.keys(answer).length !== 0;
         });
+
         apiCall('/save-question', 'POST', formData)
             .then(() => props.refresh())
             .catch(() => {
@@ -104,6 +118,19 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
     const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({...formData, active: e.target.checked});
     };
+
+    const subjects = [
+        "Other",
+        "British History",
+        "UK Government and Political System",
+        "Traditions and Customs",
+        "Modern UK Society",
+        "UK Geography",
+        "Rights and Responsibilities",
+        "Famous People and Achievements",
+        "Historical Conflicts",
+        "British Literature"
+    ];
 
     return (
         <div>
@@ -164,6 +191,23 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                                         value={formData.content}
                                         onChange={handleChange}
                                     />
+                                    <FormControl fullWidth margin="normal" variant="outlined">
+                                        <InputLabel id="subject-label">Subject</InputLabel>
+                                        <Select
+                                            labelId="subject-label"
+                                            id="subject-select"
+                                            name="subject"
+                                            value={formData.subject}
+                                            onChange={handleSelect}
+                                            label="Subject"
+                                        >
+                                            {subjects.map((subject) => (
+                                                <MenuItem key={subject} value={subject}>
+                                                    {subject}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                                     <TextField
                                         label="Attributes"
                                         variant="outlined"

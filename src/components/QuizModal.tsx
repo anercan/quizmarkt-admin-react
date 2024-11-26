@@ -19,7 +19,7 @@ interface IQuizModal {
     onClose: () => void;
     refresh: () => void;
     quiz?: any;
-    groupId?:any
+    groupId?: any
 }
 
 const QuizModal: React.FC<IQuizModal> = (props) => {
@@ -29,10 +29,10 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
         name: props.quiz?.name,
         priority: props.quiz?.priority,
         active: props.quiz?.active,
-        quizGroupIds:props.quiz?.quizGroupList?.map((q:any)=> q.id).join(','),
+        quizGroupIds: props.quiz?.quizGroupList?.map((q: any) => q.id).join(','),
         attributes: JSON.stringify(props.quiz?.attributes),
         isPremium: !props.quiz?.availablePremiumTypes?.includes('NONE'),
-        availablePremiumTypes:['']
+        availablePremiumTypes: ['']
     });
 
     useEffect(() => {
@@ -42,10 +42,10 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
                 name: props.quiz?.name,
                 priority: props.quiz?.priority,
                 active: props.quiz?.active,
-                quizGroupIds:props.quiz ? props.quiz?.quizGroupList.map((q:any)=> q.id).join(',') : props.groupId,
+                quizGroupIds: props.quiz ? props.quiz?.quizGroupList.map((q: any) => q.id).join(',') : props.groupId,
                 attributes: JSON.stringify(props.quiz?.attributes),
                 isPremium: !props.quiz?.availablePremiumTypes?.includes('NONE'),
-                availablePremiumTypes:['']
+                availablePremiumTypes: ['']
             });
             handleOpen();
         }
@@ -68,7 +68,7 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
         formData.quizGroupIds = formData?.quizGroupIds?.split(',').map(Number);
 
         let premiumTypes = [];
-        if(formData.isPremium) {
+        if (formData.isPremium) {
             premiumTypes.push("LEVEL1");
         } else {
             premiumTypes.push("LEVEL1");
@@ -81,7 +81,9 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
                 props.refresh();
                 alert('Created')
             })
-            .catch(() => {props.refresh()});
+            .catch(() => {
+                props.refresh()
+            });
         handleClose();
         props.onClose();
     };
