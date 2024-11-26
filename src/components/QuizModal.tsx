@@ -31,7 +31,8 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
         active: props.quiz?.active,
         quizGroupIds:props.quiz?.quizGroupList?.map((q:any)=> q.id).join(','),
         attributes: JSON.stringify(props.quiz?.attributes),
-        availablePremiumTypes:props?.quiz?.availablePremiumTypes?.map((q:any)=> q.id).join(',')
+        isPremium: !props.quiz?.availablePremiumTypes?.includes('NONE'),
+        availablePremiumTypes:['']
     });
 
     useEffect(() => {
@@ -43,7 +44,8 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
                 active: props.quiz?.active,
                 quizGroupIds:props.quiz ? props.quiz?.quizGroupList.map((q:any)=> q.id).join(',') : props.groupId,
                 attributes: JSON.stringify(props.quiz?.attributes),
-                availablePremiumTypes: props?.quiz?.availablePremiumTypes?.map((q:any)=> q.id).join(',')
+                isPremium: !props.quiz?.availablePremiumTypes?.includes('NONE'),
+                availablePremiumTypes:['']
             });
             handleOpen();
         }
@@ -64,7 +66,16 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
         e.preventDefault();
         console.log(formData);
         formData.quizGroupIds = formData?.quizGroupIds?.split(',').map(Number);
-        formData.availablePremiumTypes = formData?.availablePremiumTypes?.split(',');
+
+        let premiumTypes = [];
+        if(formData.isPremium) {
+            premiumTypes.push("LEVEL1");
+        } else {
+            premiumTypes.push("LEVEL1");
+            premiumTypes.push("NONE");
+        }
+
+        formData.availablePremiumTypes = premiumTypes;
         apiCall('/save-quiz', 'POST', formData)
             .then(() => {
                 props.refresh();
@@ -76,7 +87,7 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
     };
 
     const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, active: e.target.checked });
+        setFormData({...formData, [e.target.name]: e.target.checked});
     };
 
     return (
@@ -164,21 +175,23 @@ const QuizModal: React.FC<IQuizModal> = (props) => {
                                 value={formData.quizGroupIds}
                                 onChange={handleChange}
                             />
-                            <TextField
-                                label="Available Premium Types (add with comma)"
-                                variant="outlined"
-                                fullWidth
-                                margin="normal"
-                                name="availablePremiumTypes"
-                                value={formData.availablePremiumTypes}
-                                onChange={handleChange}
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={formData.isPremium}
+                                        onChange={handleSwitchChange}
+                                        name="isPremium"
+                                        color="primary"
+                                    />
+                                }
+                                label={'isPremium'}
                             />
                             <FormControlLabel
                                 control={
                                     <Switch
                                         checked={formData.active}
                                         onChange={handleSwitchChange}
-                                        name="isActive"
+                                        name="active"
                                         color="primary"
                                     />
                                 }

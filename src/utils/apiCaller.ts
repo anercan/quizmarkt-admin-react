@@ -1,5 +1,7 @@
 const BASE_URL = 'https://api.quizmarkt.com/quizmarkt-base/admin';
 
+//const BASE_URL = 'http://localhost:9092/quizmarkt-base/admin';
+
 export const apiCall = async (
     endpoint: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
