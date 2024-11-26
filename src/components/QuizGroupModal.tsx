@@ -84,6 +84,7 @@ const QuizGroupModal: React.FC<IQuizGroupModal> = (props) => {
                             bgcolor: 'background.paper',
                             borderRadius: 2,
                             boxShadow: 24,
+                            overflowY: "auto",
                             p: 4,
                         }}
                     >

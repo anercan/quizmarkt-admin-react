@@ -132,6 +132,8 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
         "British Literature"
     ];
 
+
+
     return (
         <div>
             <Modal
@@ -152,6 +154,7 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                             transform: 'translate(-50%, -50%)',
                             width: '60%',
                             bgcolor: 'background.paper',
+                            overflowY: "auto",
                             borderRadius: 2,
                             boxShadow: 24,
                             p: 4,
