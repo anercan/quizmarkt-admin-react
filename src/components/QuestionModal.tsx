@@ -120,16 +120,29 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
     };
 
     const subjects = [
-        "Other",
-        "British History",
-        "UK Government and Political System",
-        "Traditions and Customs",
-        "Modern UK Society",
+        "Values and principles of the UK",
         "UK Geography",
-        "Rights and Responsibilities",
+        "Britain Since 1945",
+        "A global power",
+        "The 20th century",
+        "The Middle Ages",
+        "The Tudors and Stuarts",
+        "Early Britain",
+        "Arts and Culture",
+        "Traditions and Customs",
+        "Early Britain",
+        "Leisure",
+        "British Literature",
+        "Place of interest",
+        "Religion",
+        "Sport",
+        "The UK Today",
+        "The development of British democracy",
+        "The British constitution",
+        "Respecting the Law",
+        "British Literature",
         "Famous People and Achievements",
-        "Historical Conflicts",
-        "British Literature"
+        "Other"
     ];
 
 
