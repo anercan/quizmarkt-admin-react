@@ -41,6 +41,7 @@ const QuizCrud: React.FC<AppCrudOperationProps> = (props) => {
             }
             let quizList = await apiCall('/get-quizzes', 'POST', body);
             setQuizList(quizList);
+            console.log(quizList)
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -54,6 +55,15 @@ const QuizCrud: React.FC<AppCrudOperationProps> = (props) => {
     const routeQuiz = (quiz:any) => {
         console.log('route',quiz.questionList)
         navigate(`/questions?quizId=${quiz.id}`, {state: quiz.questionList});
+    }
+
+    function getRowColor(item: any) {
+        if (item.active && !item?.availablePremiumTypes?.includes('NONE')) {
+            return '#fffcdb';
+        } else if (item.active) {
+            return '#ffffff';
+        }
+        return '#b83b3b';
     }
 
     return (
@@ -76,10 +86,12 @@ const QuizCrud: React.FC<AppCrudOperationProps> = (props) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>ID</TableCell>
+                                <TableCell align="left">Priority</TableCell>
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell color='info' align="left">Created Date</TableCell>
                                 <TableCell align="left">Quiz Groups</TableCell>
                                 <TableCell align="left">Attributes</TableCell>
+                                <TableCell align="left">Question Count</TableCell>
                                 <TableCell align="left">Edit</TableCell>
                             </TableRow>
                         </TableHead>
@@ -87,11 +99,12 @@ const QuizCrud: React.FC<AppCrudOperationProps> = (props) => {
                             {quizList.map((item: any, index) => (
                                 <TableRow key={index}>
                                     <TableCell component="th" scope="row">{item.id}</TableCell>
+                                    <TableCell align="left">{item.priority}</TableCell>
                                     <TableCell
                                         onClick={() => routeQuiz(item)}
                                         align="left"
                                         style={{
-                                            color: item.active ? '#ffffff' : '#c20101',
+                                            color: getRowColor(item),
                                             textDecoration: 'underline',
                                             textDecorationColor: '#ccffe8' ,
                                             cursor: 'pointer'
@@ -101,6 +114,7 @@ const QuizCrud: React.FC<AppCrudOperationProps> = (props) => {
                                     <TableCell align="left">{item.createdDate}</TableCell>
                                     <TableCell align="left">{item.quizGroupList?.map((quizGroup:any) => quizGroup.id).join(', ')}</TableCell>
                                     <TableCell align="left">{JSON.stringify(item.attributes)}</TableCell>
+                                    <TableCell align="center">{item.activeQuestionCount}</TableCell>
                                     <TableCell align="left">
                                         <Button onClick={() => editQuiz(item)} color={'info'}>Edit</Button>
                                     </TableCell>

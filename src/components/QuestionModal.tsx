@@ -24,6 +24,8 @@ interface IQuizModal {
 
 const QuestionModal: React.FC<IQuizModal> = (props) => {
     const [open, setOpen] = useState(false);
+    const [otherSelected, setOtherSelected] = useState(false);
+
     const [formData, setFormData] = useState({
         id: props.question?.id,
         content: props.question?.content,
@@ -71,6 +73,13 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
     const handleSelect = (e:any) => {
         const {name, value} = e.target;
 
+        if (value == "Other") {
+            setOtherSelected(true);
+            return;
+        } else {
+            setOtherSelected(false);
+        }
+
         let parse = JSON.parse(formData?.attributes);
         parse[name] = value;
         formData.attributes = JSON.stringify(parse);
@@ -78,6 +87,15 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
 
         setFormData({...formData, attributes: formData.attributes});
     };
+
+    const handleOther = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        let parse = JSON.parse(formData?.attributes);
+        parse[name] = value;
+        formData.attributes = JSON.stringify(parse);
+        formData.subject = value;
+        setFormData({...formData, attributes: formData.attributes});
+    }
 
     const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>, answer: any) => {
         const {name, value, id} = e.target;
@@ -144,8 +162,6 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
         "Famous People and Achievements",
         "Other"
     ];
-
-
 
     return (
         <div>
@@ -224,6 +240,16 @@ const QuestionModal: React.FC<IQuizModal> = (props) => {
                                             ))}
                                         </Select>
                                     </FormControl>
+                                    {otherSelected &&
+                                        <TextField
+                                            label="Other Subject"
+                                            variant="outlined"
+                                            fullWidth
+                                            margin="normal"
+                                            name="subject"
+                                            value={formData.subject}
+                                            onChange={handleOther}
+                                        />}
                                     <TextField
                                         label="Attributes"
                                         variant="outlined"
