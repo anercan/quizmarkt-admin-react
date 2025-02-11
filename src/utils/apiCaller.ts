@@ -7,16 +7,19 @@ export const apiCall = async (
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
     body?: object
 ): Promise<any> => {
+
     let init: any = {
         method,
         headers: {
             'Referrer-Policy': 'no-referrer',
             'Content-Type': 'application/json',
-            //'Access-Control-Allow-Origin':'http://localhost:3000'
-            // Add other headers if needed (e.g., Authorization)
+            'Access-Control-Allow-Origin':'http://localhost:3000'
         },
         body: body ? JSON.stringify(body) : undefined,
     };
+
+    let authToken = await localStorage.getItem('auth');
+    init.headers['Authorization'] = `Bearer ${authToken}`;
 
     return new Promise(async (resolve, reject) => {
         try {

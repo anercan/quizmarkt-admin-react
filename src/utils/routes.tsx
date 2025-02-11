@@ -4,9 +4,10 @@ import QuizGroupCrud from "../pages/QuizGroupCrud";
 import Users from "../pages/Users";
 import QuizCrud from "../pages/QuizCrud";
 import QuestionsCrud from "../pages/QuestionsCrud";
+import Login from "../pages/Login";
 
 export const routes = [
-    {path: '/', element: <Dashboard/>, title: 'Home'},
+    {path: '/', element: <Login/>, title: 'Login'},
     {path: '/dashboard', element: <Dashboard/>, title: 'Dashboard'},
     {path: '/data', element: <Data/>, title: 'Data'},
     {path: '/users', element: <Users/>, title: 'Users'},

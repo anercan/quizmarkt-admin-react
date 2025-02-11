@@ -18,7 +18,7 @@ const MainLayout: React.FC = () => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Sidebar />
+            {location !== 'Login' && <Sidebar />}
             <Box
                 component="main"
                 sx={{
