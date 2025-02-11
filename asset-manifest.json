@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/quizmarkt-admin-react/static/css/main.e6c13ad2.css",
-    "main.js": "/quizmarkt-admin-react/static/js/main.9afbfc9d.js",
+    "main.js": "/quizmarkt-admin-react/static/js/main.43b68867.js",
     "static/js/453.6e5dac42.chunk.js": "/quizmarkt-admin-react/static/js/453.6e5dac42.chunk.js",
     "index.html": "/quizmarkt-admin-react/index.html",
     "main.e6c13ad2.css.map": "/quizmarkt-admin-react/static/css/main.e6c13ad2.css.map",
-    "main.9afbfc9d.js.map": "/quizmarkt-admin-react/static/js/main.9afbfc9d.js.map",
+    "main.43b68867.js.map": "/quizmarkt-admin-react/static/js/main.43b68867.js.map",
     "453.6e5dac42.chunk.js.map": "/quizmarkt-admin-react/static/js/453.6e5dac42.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.9afbfc9d.js"
+    "static/js/main.43b68867.js"
   ]
 }
