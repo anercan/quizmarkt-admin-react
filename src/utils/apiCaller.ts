@@ -8,13 +8,10 @@ export const apiCall = async (
     body?: object
 ): Promise<any> => {
 
+
     let init: any = {
         method,
-        headers: {
-            'Referrer-Policy': 'no-referrer',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin':'http://localhost:3000'
-        },
+        headers: basicHeaders,
         body: body ? JSON.stringify(body) : undefined,
     };
 
@@ -32,5 +29,11 @@ export const apiCall = async (
             reject(error);
         }
     });
+};
+
+const basicHeaders = {
+    'Referrer-Policy': 'no-referrer',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin':'https://anercan.github.io/'
 };
 
