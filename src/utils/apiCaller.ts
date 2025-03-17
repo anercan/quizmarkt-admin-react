@@ -36,4 +36,3 @@ const basicHeaders = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin':'https://anercan.github.io/'
 };
-
