@@ -11,6 +11,7 @@ export const apiCall = async (
 
     let init: any = {
         method,
+        credentials: 'include',
         headers: basicHeaders,
         body: body ? JSON.stringify(body) : undefined,
     };
@@ -34,5 +35,4 @@ export const apiCall = async (
 const basicHeaders = {
     'Referrer-Policy': 'no-referrer',
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin':'https://anercan.github.io/'
 };
