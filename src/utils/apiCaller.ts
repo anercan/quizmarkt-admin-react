@@ -11,7 +11,6 @@ export const apiCall = async (
 
     let init: any = {
         method,
-        credentials: 'include',
         headers: basicHeaders,
         body: body ? JSON.stringify(body) : undefined,
     };
