@@ -3,9 +3,9 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from "react-router-dom";
-import { Drawer, IconButton, ListItemIcon } from "@mui/material";
+import {Box, Drawer, IconButton, ListItemIcon} from "@mui/material";
 import theme from "../utils/theme";
-import { Dataset, Home, VerifiedUser, Menu } from "@mui/icons-material";
+import {Dataset, Home, VerifiedUser, Menu, ExitToApp} from "@mui/icons-material";
 import { useMediaQuery } from "@mui/material";
 
 const Sidebar: React.FC = () => {
@@ -15,27 +15,32 @@ const Sidebar: React.FC = () => {
     const toggleDrawer = () => setDrawerOpen(!isDrawerOpen);
 
     const drawerContent = (
-        <List style={{ marginTop: isMobile ? 0 : 70 }}>
-            <ListItem button component={Link as any} to="/" onClick={() => isMobile && setDrawerOpen(false)}>
-                <ListItemIcon>
-                    <Home color="info" />
-                </ListItemIcon>
+    <Box display="flex" flexDirection="column" height="100%">
+        <List style={{ flexGrow: 1, marginTop: isMobile ? 0 : 70 }}>
+            <ListItem button component={Link as any} to="/dashboard" onClick={() => isMobile && setDrawerOpen(false)}>
+                <ListItemIcon><Home color="info" /></ListItemIcon>
                 <ListItemText primary="Dashboard" />
             </ListItem>
             <ListItem button component={Link as any} to="/data" onClick={() => isMobile && setDrawerOpen(false)}>
-                <ListItemIcon>
-                    <Dataset color="info" />
-                </ListItemIcon>
+                <ListItemIcon><Dataset color="info" /></ListItemIcon>
                 <ListItemText primary="Data" />
             </ListItem>
             <ListItem button component={Link as any} to="/users" onClick={() => isMobile && setDrawerOpen(false)}>
-                <ListItemIcon>
-                    <VerifiedUser color="info" />
-                </ListItemIcon>
+                <ListItemIcon><VerifiedUser color="info" /></ListItemIcon>
                 <ListItemText primary="Users" />
             </ListItem>
         </List>
-    );
+
+        {/* Logout her zaman altta olacak */}
+        <List>
+            <ListItem button component={Link as any} to="/" onClick={() => isMobile && setDrawerOpen(false)}>
+                <ListItemIcon><ExitToApp /></ListItemIcon>
+                <ListItemText primary="Logout" />
+            </ListItem>
+        </List>
+    </Box>
+
+);
 
     return (
         <>

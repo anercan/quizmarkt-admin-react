@@ -18,7 +18,7 @@ interface AppCrudOperationProps {
 const QuizGroupCrud: React.FC<AppCrudOperationProps> = (props) => {
 
     const navigate = useNavigate();
-    const [quizGroupList, setQuizGroupList] = useState([]);
+    const [quizGroupList, setQuizGroupList] = useState<any[]>([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedQuizGroup, setSelectedQuizGroup] = useState({});
 
@@ -30,7 +30,7 @@ const QuizGroupCrud: React.FC<AppCrudOperationProps> = (props) => {
     const fetchAndSetData = async () => {
         try {
             let quizList = await apiCall('/get-quiz-groups', 'POST', {'page': 0, 'pageSize': 25});
-            setQuizGroupList(quizList);
+            setQuizGroupList([...quizList].sort((a, b) => a.priority - b.priority));
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -74,6 +74,7 @@ const QuizGroupCrud: React.FC<AppCrudOperationProps> = (props) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>ID</TableCell>
+                                <TableCell>Priority</TableCell>
                                 <TableCell color='info' align="left">Last Modified Date</TableCell>
                                 <TableCell align="left">Title</TableCell>
                                 <TableCell align="left">Description</TableCell>
@@ -86,6 +87,7 @@ const QuizGroupCrud: React.FC<AppCrudOperationProps> = (props) => {
                             {quizGroupList.map((item: any, index) => (
                                 <TableRow key={index}>
                                     <TableCell component="th" scope="row">{item.id}</TableCell>
+                                    <TableCell align="left">{item.priority}</TableCell>
                                     <TableCell align="left">{item.lastModifiedDate}</TableCell>
                                     <TableCell
                                         onClick={() => routeQuizList(item.id)}

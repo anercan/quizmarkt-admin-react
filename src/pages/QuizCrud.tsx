@@ -20,7 +20,7 @@ const QuizCrud: React.FC<AppCrudOperationProps> = (props) => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const groupId = searchParams.get('groupId') || undefined;
-    const [quizList, setQuizList] = useState([]);
+    const [quizList, setQuizList] = useState<any[]>([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedQuiz, setSelectedQuiz] = useState({});
 
@@ -40,7 +40,7 @@ const QuizCrud: React.FC<AppCrudOperationProps> = (props) => {
                 body.quizGroupId = Number(groupId);
             }
             let quizList = await apiCall('/get-quizzes', 'POST', body);
-            setQuizList(quizList);
+            setQuizList([...quizList].sort((a, b) => a.priority - b.priority));
             console.log(quizList)
         } catch (error) {
             console.error('Error fetching data:', error);

@@ -3,7 +3,7 @@ import {Button, ButtonGroup} from "@mui/material";
 import {Link} from "react-router-dom";
 import theme from "../utils/theme";
 
-const Data = () => {
+const QuizData = () => {
     const divStyle: any = {
         width: '200px',
         height: '100px',
@@ -24,7 +24,7 @@ const Data = () => {
         <div>
             <Button style={divStyle}
                     component={Link as any}
-                    to="/life-in-the-uk-data"
+                    to="/quiz-group?appId=1"
                     variant="outlined"
                     color="info">
                 Life In The UK
@@ -33,4 +33,4 @@ const Data = () => {
     );
 };
 
-export default Data;
+export default QuizData;

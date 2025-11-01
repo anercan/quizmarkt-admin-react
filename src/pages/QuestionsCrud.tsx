@@ -18,7 +18,7 @@ const QuestionsCrud: React.FC<IQuestionsCrud> = (props) => {
 
     const [searchParams] = useSearchParams();
     const quizId = searchParams.get('quizId') || undefined;
-    const [questionList, setQuestionList] = useState([]);
+    const [questionList, setQuestionList] = useState<any[]>([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedQuestion, setSelectedQuestion] = useState({});
 
@@ -29,7 +29,8 @@ const QuestionsCrud: React.FC<IQuestionsCrud> = (props) => {
     const fetchAndSetData = async () => {
         try {
             let questionList = await apiCall('/get-question-list?quizId=' + quizId, 'GET');
-            setQuestionList(questionList);
+            setQuestionList([...questionList].sort((a, b) => a.priority - b.priority));
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
