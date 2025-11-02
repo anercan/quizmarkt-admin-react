@@ -11,11 +11,8 @@ import {
 import {Link, useNavigate} from "react-router-dom";
 import QuizGroupModal from "../components/QuizGroupModal";
 
-interface AppCrudOperationProps {
-    appId: number;
-}
 
-const QuizGroupCrud: React.FC<AppCrudOperationProps> = (props) => {
+const QuizGroupCrud: React.FC<any> = (props) => {
 
     const navigate = useNavigate();
     const [quizGroupList, setQuizGroupList] = useState<any[]>([]);
@@ -24,7 +21,6 @@ const QuizGroupCrud: React.FC<AppCrudOperationProps> = (props) => {
 
     useEffect(() => {
         fetchAndSetData();
-        console.log(quizGroupList)
     }, []);
 
     const fetchAndSetData = async () => {

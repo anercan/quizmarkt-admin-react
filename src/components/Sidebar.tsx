@@ -21,7 +21,7 @@ const Sidebar: React.FC = () => {
                 <ListItemIcon><Home color="info" /></ListItemIcon>
                 <ListItemText primary="Dashboard" />
             </ListItem>
-            <ListItem button component={Link as any} to="/data" onClick={() => isMobile && setDrawerOpen(false)}>
+            <ListItem button component={Link as any} to="/quiz-group" onClick={() => isMobile && setDrawerOpen(false)}>
                 <ListItemIcon><Dataset color="info" /></ListItemIcon>
                 <ListItemText primary="Data" />
             </ListItem>

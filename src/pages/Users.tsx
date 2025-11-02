@@ -92,11 +92,12 @@ const Users: React.FC = () => {
                     filteredUsers.map(user => (
                         <li key={user.id} style={styles.userListItem}>
                             <div style={styles.userInfo}>
-                                <strong style={{color: '#a1e2be'}}>{user.name}</strong> ({user.id}) <br/>
+                                <strong style={{color: '#a1e2be'}}>{user.name}</strong> ({user.id} - App: {user.appId}) <br/>
+                                <span>Email: {user.email}</span> <br/>
                                 <span>Created: {new Date(user.createdDate).toLocaleString()}</span> <br/>
                                 <span style={styles.userStatus}>
                                     {getPremiumStatus(user.premiumInfo) + ' ' + formatExpireDate(Number(user?.premiumInfo?.expireDate))}
-                                </span>
+                                </span><br/>
                             </div>
                         </li>
                     ))

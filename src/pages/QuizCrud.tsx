@@ -11,11 +11,7 @@ import {
 import QuizModal from "../components/QuizModal";
 import {useNavigate, useSearchParams} from "react-router-dom";
 
-interface AppCrudOperationProps {
-    appId: number;
-}
-
-const QuizCrud: React.FC<AppCrudOperationProps> = (props) => {
+const QuizCrud = () => {
 
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();

@@ -6,11 +6,13 @@ import {useNavigate} from "react-router-dom";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [appId, setAppId] = useState(1);
+
     let navigate = useNavigate();
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        apiCall('/login', 'POST', {email: username, password: password})
+        apiCall('/login', 'POST', {email: username, password: password,appId:appId})
             .then((r) => {
                 if(r.jwt) {
                     localStorage.setItem("auth", r.jwt);
@@ -74,6 +76,30 @@ const Login = () => {
                             required
                         />
                     </div>
+
+                    <div style={{ position: "relative" }}>
+                        <select
+                            value={appId}
+                            defaultValue={"1"}
+                            onChange={(e) => setAppId(Number(e.target.value))}
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                borderRadius: "6px",
+                                border: "none",
+                                backgroundColor: "#555",
+                                color: "white",
+                                appearance: "none",
+                                cursor: "pointer",
+                            }}
+                            required
+                        >
+                            <option value="">Select Application</option>
+                            <option value="1">Life in the UK</option>
+                            <option value="2">Other</option>
+                        </select>
+                    </div>
+
                     <button style={{
                         width: '100%',
                         padding: '10px',
