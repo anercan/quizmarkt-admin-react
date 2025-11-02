@@ -16,7 +16,7 @@ const Login = () => {
             .then((r) => {
                 if(r.jwt) {
                     localStorage.setItem("auth", r.jwt);
-                    navigate('/data')
+                    navigate('/dashboard')
                 } else {
                     alert('Login failed!')
                 }
